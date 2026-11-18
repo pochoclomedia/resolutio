@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a4f9e">
+<title>Resolutio · Gestión de cuadrillas (maqueta)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b5aa8;--top:#083f7c;--box:#f3f6fa;--card:#fff;--ink:#14263d;--muted:#5f6f82;--line:#dde5ef;
+  --brand:#0a4f9e;--brand2:#0e6bb5;--accent:#e30613;--amber:#f0a020;
+  --pend:#7c8380;--proc:#2b6cb0;--fin:#2f855a;--nofin:#c53030;
+  --poda:#2f7d4f;--calles:#b5651d;--limpieza:#2b6cb0;--r:14px;
+  --sh:0 1px 2px rgba(10,40,80,.05),0 4px 14px rgba(10,40,80,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--brand2)}
+.hidden{display:none!important}
+.muted{color:var(--muted)}
+small{font-size:12.5px}
+.list>.empty{color:#fff}
+/* íconos estilo web: círculo rojo, trazo blanco */
+.ric{width:44px;height:44px;border-radius:50%;background:var(--accent);display:inline-grid;place-items:center;flex:none;vertical-align:middle}
+.ric svg{width:54%;height:54%}
+.ric.s{width:24px;height:24px}.ric.xs{width:20px;height:20px;margin-right:4px}
+.li{width:16px;height:16px;vertical-align:-3px;flex:none}
+/* estadísticas */
+.stabs{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 18px}
+.stabs a{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:99px;background:rgba(255,255,255,.14);color:#fff;text-decoration:none;font-weight:600;font-size:14px}
+.stabs a.on{background:#fff;color:var(--ink)}
+.stabs a .ric{margin:0}
+.crumb{color:rgba(255,255,255,.85);margin:-6px 0 14px;font-size:14px}.crumb a{color:#fff}
+.sub-h{display:flex;align-items:center;gap:12px;color:#fff;margin:0 0 14px}.sub-h h2{margin:0;font-size:21px}.sub-h small{opacity:.85;display:block}
+.kpi .s{font-size:12px;color:var(--muted);margin-top:2px}
+.qty{display:flex;align-items:center;gap:8px}.qty input{flex:1;min-width:0}.qty span{color:var(--muted);font-weight:600;white-space:nowrap}
+.flow{display:flex;height:30px;border-radius:8px;overflow:hidden;margin:8px 0 10px;background:#eaeff5}
+.flow span{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;padding:0 6px}
+.cols{display:flex;align-items:flex-end;gap:8px;height:150px;border-bottom:1px solid var(--line)}
+.cols .wk{flex:1;display:flex;align-items:flex-end;justify-content:center;gap:3px;height:100%}
+.cols .wk span{width:42%;max-width:18px;border-radius:4px 4px 0 0;min-height:2px;position:relative}
+.cols .wk span b{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:10.5px;color:var(--muted);font-weight:600}
+.xl{display:flex;gap:8px}.xl span{flex:1;text-align:center;font-size:11px;color:var(--muted);padding-top:5px}
+.mini tr.click{cursor:pointer}.mini tr.click:hover td{background:#f3f8fd}
+.mini td.r,.mini th.r{text-align:right}
+.scroll{overflow-x:auto}
+.go{color:var(--brand2);font-weight:700}
+
+/* marca */
+.wm{font-family:"Nunito",system-ui,sans-serif;font-weight:900;letter-spacing:-.5px;line-height:1}
+
+/* ---------- LOGIN ---------- */
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg)}
+.login-card{background:#fff;border-radius:20px;max-width:460px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.login h1.wm{margin:0 0 6px;font-size:44px;color:var(--brand)}
+.login h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:22px 0 10px}
+.role{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--box);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px;transition:.15s}
+.role:hover{border-color:var(--brand2);background:#fff;transform:translateY(-1px)}
+.role .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex:none}
+.role b{display:block}
+.tip{margin-top:18px;font-size:13px;background:#eaf2fb;border:1px solid #c9dcf2;border-radius:12px;padding:10px 12px}
+
+/* ---------- ADMIN ---------- */
+.top{position:sticky;top:0;z-index:20;background:var(--top);box-shadow:0 2px 10px rgba(0,0,0,.15);color:#fff;display:flex;align-items:center;gap:18px;padding:10px 20px;flex-wrap:wrap}
+.brand .wm{font-size:24px;color:#fff;display:block}
+.brand small{display:block;opacity:.8;font-size:12px;line-height:1.2;margin-top:2px}
+.tabs{display:flex;gap:4px;flex:1;overflow-x:auto}
+.tabs a{color:#fff;text-decoration:none;padding:8px 14px;border-radius:10px;white-space:nowrap;opacity:.8}
+.tabs a.on{background:rgba(255,255,255,.16);opacity:1;font-weight:600}
+.tabs a:hover{opacity:1}
+.who{font-size:13px;opacity:.9;white-space:nowrap}
+.salir{color:#fff;margin-left:8px;opacity:.8}
+.wrap{max-width:1200px;margin:0 auto;padding:22px 20px 60px}
+.h{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.h h1{margin:0;font-size:22px;letter-spacing:-.3px;color:#fff}
+.per{background:rgba(255,255,255,.15)!important}.per button{color:#fff!important}.per button.on{color:var(--ink)!important}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border-radius:var(--r);padding:14px 16px;box-shadow:var(--sh);border-left:4px solid var(--line)}
+.kpi .v{font-size:26px;font-weight:700;letter-spacing:-.5px}
+.kpi .l{font-size:12.5px;color:var(--muted)}
+.kpi.red{border-left-color:var(--accent)} .kpi.red .v{color:var(--accent)}
+.kpi.blue{border-left-color:var(--brand2)} .kpi.green{border-left-color:var(--fin)} .kpi.amber{border-left-color:var(--amber)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.filters input,.filters select{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px}
+.filters input{flex:1;min-width:200px}
+.panel{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden}
+table.tbl{width:100%;border-collapse:collapse}
+.tbl th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600;padding:11px 14px;border-bottom:1px solid var(--line);background:#f7f9fc}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr.row{cursor:pointer}
+.tbl tr.row:hover td{background:#f3f8fd}
+.tbl .id{color:var(--muted);font-variant-numeric:tabular-nums}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.chip.pend{color:var(--pend);background:#eef0ee}.chip.proc{color:var(--proc);background:#e7f0fa}
+.chip.fin{color:var(--fin);background:#e5f4ec}.chip.nofin{color:var(--nofin);background:#fbe9e9}
+.cq{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted)}
+.cq i{width:8px;height:8px;border-radius:3px;display:inline-block}
+.tag{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:6px}
+.tag.urg{background:#fde3e4;color:#c4000f}.tag.new{background:var(--accent);color:#fff}
+.late{color:var(--nofin);font-weight:600}
+.ok{color:var(--fin)}
+
+/* forms */
+.form{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:22px;max-width:760px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.f label{font-size:13px;font-weight:600}
+.f input,.f select,.f textarea{border:1px solid var(--line);border-radius:10px;padding:11px 12px;background:#fff;width:100%}
+.f textarea{resize:vertical;min-height:80px}
+.f input:focus,.f select:focus,.f textarea:focus{outline:2px solid var(--brand2);outline-offset:-1px;border-color:transparent}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:12px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
+.seg button.on{border-color:var(--brand2);background:#e8f1fa}
+.btn{border:0;border-radius:12px;padding:11px 18px;font-weight:600;background:var(--brand2);color:#fff}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn.big{width:100%;padding:16px;font-size:17px;border-radius:14px}
+.btn:disabled{opacity:.4;cursor:not-allowed;filter:none}
+.btn.sm{padding:7px 12px;font-size:13px}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:18px}
+.card h3{margin:0 0 4px;font-size:15px}
+.card p.d{margin:0 0 14px;font-size:12.5px;color:var(--muted)}
+.bar-row{display:grid;grid-template-columns:130px 1fr 74px;align-items:center;gap:10px;margin:9px 0;font-size:13.5px}
+.bar{height:12px;background:#eaeff5;border-radius:99px;overflow:hidden}
+.bar>span{display:block;height:100%;border-radius:99px}
+.bar-row .n{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.stack{display:flex;height:14px;border-radius:99px;overflow:hidden;background:#eaeff5}
+.stack span{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:-1px}
+.big3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.big3 div{background:var(--box);border-radius:12px;padding:12px}
+.big3 b{display:block;font-size:22px;letter-spacing:-.4px;color:var(--brand)}
+.wide{grid-column:1/-1}
+.mini{width:100%;border-collapse:collapse;font-size:13.5px}
+.mini th{text-align:left;color:var(--muted);font-weight:600;font-size:12px;padding:6px 8px;border-bottom:1px solid var(--line)}
+.mini td{padding:8px;border-bottom:1px solid var(--line)}
+.per{display:flex;gap:4px;background:#e3eaf3;border-radius:10px;padding:3px}
+.per button{border:0;background:transparent;padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:var(--muted)}
+.per button.on{background:#fff;color:var(--ink);box-shadow:var(--sh)}
+
+/* ---------- CUADRILLA (mobile) ---------- */
+.cq-app{max-width:520px;margin:0 auto;min-height:100vh;background:var(--bg)}
+.cq-head{position:sticky;top:0;z-index:10;color:#fff;padding:16px 18px 14px;padding-top:max(16px,env(safe-area-inset-top));background:var(--top)}
+.cq-head .row1{display:flex;justify-content:space-between;align-items:center}
+.cq-head h1{margin:0;font-size:20px}
+.cq-head small{opacity:.85}
+.cq-head a{color:#fff;opacity:.85;font-size:14px}
+.cq-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;background:rgba(0,0,0,.18);border-radius:12px;padding:4px}
+.cq-tabs button{border:0;background:transparent;color:#fff;padding:10px;border-radius:9px;font-weight:600;opacity:.85}
+.cq-tabs button.on{background:#fff;color:var(--ink);opacity:1}
+.list{padding:14px}
+.tcard{background:#fff;border-radius:16px;padding:15px 16px;margin-bottom:12px;box-shadow:var(--sh);border-left:5px solid var(--line);display:block;width:100%;text-align:left;border-top:0;border-right:0;border-bottom:0}
+.tcard.vencida{border-left-color:var(--nofin)}
+.tcard .t1{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.tcard h3{margin:0;font-size:17px}
+.tcard .dir{font-size:15px;margin:4px 0 8px}
+.tcard .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:13px;color:var(--muted)}
+.tcard .tags{display:flex;gap:5px;margin-bottom:6px}
+.hint{text-align:center;color:rgba(255,255,255,.8);font-size:13px;padding:6px 0 20px}
+
+/* modal / sheet */
+.ov{position:fixed;inset:0;background:rgba(10,25,45,.45);z-index:50;display:flex;align-items:center;justify-content:center;padding:20px;animation:fade .15s}
+.md{background:#fff;border-radius:18px;max-width:640px;width:100%;max-height:90vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.md-h{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:flex-start;position:sticky;top:0;background:#fff;z-index:1}
+.md-h h2{margin:0;font-size:19px}
+.md-b{padding:18px 20px}
+.x{border:0;background:#eef2f7;width:34px;height:34px;border-radius:50%;font-size:18px;flex:none}
+.kv{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 18px;margin-bottom:16px}
+.kv div span{display:block;font-size:12px;color:var(--muted)}
+.tl{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);margin-left:6px}
+.tl li{position:relative;padding:0 0 14px 18px}
+.tl li::before{content:"";position:absolute;left:-7px;top:4px;width:12px;height:12px;border-radius:50%;background:#fff;border:2px solid var(--pend)}
+.tl li.proc::before{border-color:var(--proc)}.tl li.fin::before{border-color:var(--fin);background:var(--fin)}.tl li.nofin::before{border-color:var(--nofin);background:var(--nofin)}
+.tl small{color:var(--muted)}
+.box{background:var(--box);border-radius:12px;padding:12px;margin-bottom:14px}
+.ov.sheet{align-items:flex-end;padding:0}
+.ov.sheet .md{border-radius:22px 22px 0 0;max-width:520px;max-height:94vh;animation:up .2s ease-out;padding-bottom:env(safe-area-inset-bottom)}
+.est{display:grid;gap:10px;margin:6px 0 16px}
+.est button{display:flex;align-items:center;gap:12px;border:2px solid var(--line);background:#fff;border-radius:14px;padding:15px 16px;font-size:17px;font-weight:600;text-align:left}
+.est button .dot{width:16px;height:16px;border-radius:50%;flex:none}
+.est button.on{border-width:3px}
+.est button[data-e=en_proceso].on{border-color:var(--proc);background:#eef5fc}
+.est button[data-e=finalizado].on{border-color:var(--fin);background:#ecf7f0}
+.est button[data-e=no_finalizado].on{border-color:var(--nofin);background:#fdf0f0}
+.cnt{text-align:right;font-size:12px;color:var(--muted)}
+.foto{display:flex;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--line);border-radius:14px;padding:14px;color:var(--muted);font-weight:600;margin-bottom:16px;cursor:pointer}
+.foto.ok{border-style:solid;border-color:var(--fin);color:var(--fin)}
+.maps{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:600;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:16px;color:var(--ink)}
+
+/* toasts */
+#toasts{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:100;display:flex;flex-direction:column;gap:8px;width:min(420px,92vw)}
+.toast{background:#0b2547;color:#fff;padding:12px 16px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:14px;animation:down .25s ease-out;border-left:4px solid var(--accent)}
+.toast b{color:#9fd0ff}
+.foot{text-align:center;font-size:12px;color:var(--muted);padding:16px}
+.foot button{border:0;background:none;color:var(--brand2);text-decoration:underline;font-size:12px}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+@keyframes down{from{transform:translateY(-14px);opacity:0}}
+
+@media (max-width:900px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .cols .wk span b{display:none}
+  .stats{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .top{padding:10px 14px;gap:8px}
+  .who{display:none}
+  .tabs{order:3;width:100%}
+  .wrap{padding:16px 12px 50px}
+  .grid2,.kv{grid-template-columns:1fr}
+  .tbl thead{display:none}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}
+  .tbl tr.row{padding:12px 14px;border-bottom:1px solid var(--line)}
+  .tbl td{border:0;padding:2px 0}
+  .bar-row{grid-template-columns:96px 1fr 64px}
+  .big3{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal"></div>
+<div id="toasts"></div>
+
+<script>
+/* =========================================================
+   Resolutio · maqueta
+   Los datos se guardan en el navegador (localStorage) para la demo.
+   En la versión real esto se reemplaza por una base de datos online.
+   ========================================================= */
+
+const CUAD = {
+  poda:     {nombre:'Poda de árboles', corto:'Poda',     enc:'Jorge',  icon:'🌳', hex:'#2f7d4f'},
+  calles:   {nombre:'Calles y baches', corto:'Calles',   enc:'Ramón',  icon:'🚧', hex:'#b5651d'},
+  limpieza: {nombre:'Limpieza',        corto:'Limpieza', enc:'Silvia', icon:'🧹', hex:'#2b6cb0'}
+};
+/* productos por cuadrilla: nombre, plazo objetivo (días), unidad de medida y rango típico de cantidad */
+const TIPOS = {
+  poda: [
+    {n:'Poda de despeje',            sla:15, u:'árbol',      up:'árboles',      q:[1,8]},
+    {n:'Extracción de árbol',        sla:30, u:'árbol',      up:'árboles',      q:[1,2]},
+    {n:'Rama caída',                 sla:2,  u:'rama',       up:'ramas',        q:[1,4]},
+    {n:'Despeje de luminaria',       sla:7,  u:'luminaria',  up:'luminarias',   q:[1,4]}
+  ],
+  calles: [
+    {n:'Bacheo',                     sla:7,  u:'bache',      up:'baches',       q:[1,8]},
+    {n:'Asfalto',                    sla:20, u:'m²',         up:'m²',           q:[20,300]},
+    {n:'Cordón cuneta',              sla:20, u:'metro',      up:'metros',       q:[5,60]},
+    {n:'Hundimiento',                sla:5,  u:'hundimiento',up:'hundimientos', q:[1,2]}
+  ],
+  limpieza: [
+    {n:'Microbasural',               sla:5,  u:'m³',         up:'m³',           q:[2,20]},
+    {n:'Barrido',                    sla:3,  u:'cuadra',     up:'cuadras',      q:[5,40]},
+    {n:'Retiro de voluminosos',      sla:4,  u:'m³',         up:'m³',           q:[1,8]},
+    {n:'Limpieza de zanja',          sla:7,  u:'metro',      up:'metros',       q:[20,200]}
+  ]
+};
+const MOTIVOS = [
+  'Falta de material o insumos',
+  'Clima',
+  'Acceso bloqueado (auto, portón, obra)',
+  'Requiere otra cuadrilla o maquinaria',
+  'Dirección incorrecta / no se encontró',
+  'Falta de personal o vehículo',
+  'Otro'
+];
+const LOCALIDADES = ['Pilar Centro','Del Viso','Presidente Derqui','Villa Rosa','Manzanares','Fátima','Manuel Alberti','Villa Astolfi','La Lonja','Zelaya'];
+const CALLES = ['San Martín','Belgrano','Rivadavia','Mitre','Sarmiento','Moreno','Las Heras','Lavalle','Pellegrini','Alvear','Italia','Colón','Hipólito Yrigoyen','Av. Caamaño','Av. Tomás Márquez','Chacabuco','Independencia','Tucumán'];
+const ESTADOS = {
+  pendiente:     {t:'Pendiente',     c:'pend',  hex:'#7c8380'},
+  en_proceso:    {t:'En proceso',    c:'proc',  hex:'#2b6cb0'},
+  finalizado:    {t:'Finalizado',    c:'fin',   hex:'#2f855a'},
+  no_finalizado: {t:'No finalizado', c:'nofin', hex:'#c53030'}
+};
+const ADMIN = 'Laura (Mesa de entradas)';
+const SV = (d,c='#fff') => `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const P = {
+  admin:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 3h6v3H9zM9 11h6M9 15h4"/>',
+  poda:'<path d="M12 21v-5M12 3 6 11h3l-3 5h12l-3-5h3z"/>',
+  calles:'<path d="M10 3h4l4 15H6zM8.5 10h7M7.5 14h9M4 21h16"/>',
+  limpieza:'<path d="M4 7h16M10 7V4h4v3M6 7l1 14h10l1-14M10 11v6M14 11v6"/>',
+  pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
+  map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2zM9 4v14M15 6v14"/>',
+  cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'
+};
+const ICON = {admin:SV(P.admin),poda:SV(P.poda),calles:SV(P.calles),limpieza:SV(P.limpieza)};
+const ric = (k,cls='') => `<span class="ric ${cls}">${ICON[k]}</span>`;
+const li = (k,c='currentColor') => SV(P[k],c).replace('<svg','<svg class="li"');
+const H = 3600e3, D = 24*H;
+const KEY = 'resolutio_demo_v2';
+let S = null;
+
+/* ---------- utilidades ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n => String(n).padStart(2,'0');
+function fecha(ts){const d=new Date(ts);return `${pad(d.getDate())}/${pad(d.getMonth()+1)} ${pad(d.getHours())}:${pad(d.getMinutes())}`}
+function dur(ms){
+  ms=Math.abs(ms);
+  if(ms<H) return Math.max(1,Math.round(ms/60e3))+' min';
+  if(ms<D) return Math.round(ms/H)+' h';
+  const d=ms/D; return (d<10?d.toFixed(1).replace('.',','):Math.round(d))+' días';
+}
+const hace = ts => 'hace '+dur(Date.now()-ts);
+const prod = t => TIPOS[t.cuadrilla].find(p=>p.n===t.tipo) || TIPOS[t.cuadrilla][0];
+const num = n => Number(n).toLocaleString('es-AR',{maximumFractionDigits:1});
+const fq = (n,p) => `${num(n)} ${n===1?p.u:p.up}`;
+const median = a => {if(!a.length)return null;const b=[...a].sort((x,y)=>x-y),m=b.length>>1;return b.length%2?b[m]:(b[m-1]+b[m])/2};
+function slaDias(t){let d=prod(t).sla;if(t.prioridad==='urgente')d=Math.max(1,Math.round(d/2));return d}
+const vence = t => t.creado + slaDias(t)*D;
+const abierta = t => t.estado==='pendiente'||t.estado==='en_proceso';
+const vencida = t => abierta(t) && Date.now()>vence(t);
+const avg = a => a.length ? a.reduce((x,y)=>x+y,0)/a.length : null;
+const chip = e => `<span class="chip ${ESTADOS[e].c}">${ESTADOS[e].t}</span>`;
+const cqLabel = c => `<span class="cq"><i style="background:${CUAD[c].hex}"></i>${CUAD[c].corto}</span>`;
+
+function toast(html){
+  const el=document.createElement('div');el.className='toast';el.innerHTML=html;
+  $('#toasts').appendChild(el);setTimeout(()=>el.remove(),4200);
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function load(){try{const j=localStorage.getItem(KEY);if(j)return JSON.parse(j)}catch(e){}return null}
+
+/* ---------- datos de ejemplo ---------- */
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function seedData(){
+  const r=rng(20261117), pick=a=>a[Math.floor(r()*a.length)], now=Date.now(), tasks=[];
+  const factor={poda:1.0,calles:0.75,limpieza:0.35};
+  const OBS_FIN={poda:['','Se retiraron los restos de poda','',''],calles:['','Bacheo en frío, revisar en 30 días','','Se señalizó la zona'],limpieza:['','Se retiraron 2 camiones de residuos','','']};
+  const OBS_NO={'Falta de material o insumos':'No hay asfalto en frío en el obrador','Clima':'Lluvia toda la mañana','Acceso bloqueado (auto, portón, obra)':'Auto estacionado sobre el árbol, volver a pasar','Requiere otra cuadrilla o maquinaria':'Hace falta hidrogrúa','Dirección incorrecta / no se encontró':'La numeración no existe, pedir referencia al vecino','Falta de personal o vehículo':'Camión en el taller','Otro':'Vecino no permitió el trabajo'};
+  for(let i=0;i<150;i++){
+    const c=pick(Object.keys(CUAD)); const P=pick(TIPOS[c]), tipo=P.n;
+    const q0=P.q[0]+Math.round(r()*(P.q[1]-P.q[0]));
+    const dt=new Date(now-Math.pow(r(),0.85)*60*D); dt.setHours(8+Math.floor(r()*9),Math.floor(r()*60),0,0);
+    const creado=Math.min(dt.getTime(),now-40*60e3), age=now-creado;
+    const t={id:0,cuadrilla:c,tipo,direccion:pick(CALLES)+' '+(100+Math.floor(r()*2400)),localidad:pick(LOCALIDADES),
+      prioridad:r()<0.18?'urgente':'normal',descripcion:pick(['Reclamo de vecino por 147','Detectado en recorrida','Pedido de la delegación','Reclamo de vecino por WhatsApp','']),
+      cargadoPor:pick(['Laura','Martín'])+' (Mesa de entradas)',creado,inicio:null,cierre:null,estado:'pendiente',motivo:'',obs:'',vista:true,historial:[],
+      cantEst:r()<0.65?q0:null,cant:null};
+    t.historial.push({ts:creado,estado:'pendiente',quien:t.cargadoPor,nota:'Cargada y asignada a '+CUAD[c].corto});
+    const total=Math.min(age*0.92, slaDias(t)*D*factor[c]*(0.15+r()*1.15));
+    const x=r(); let est;
+    if(age<1.2*D) est = x<0.65?'pendiente':'en_proceso';
+    else est = x<0.66?'finalizado':x<0.78?'no_finalizado':x<0.88?'en_proceso':'pendiente';
+    const enc=CUAD[c].enc+' (Encargado '+CUAD[c].corto+')';
+    if(est!=='pendiente'){
+      t.inicio=creado+total*(0.55+r()*0.3);
+      t.historial.push({ts:t.inicio,estado:'en_proceso',quien:enc,nota:''});
+    }
+    if(est==='finalizado'||est==='no_finalizado'){
+      t.cierre=creado+total;
+      if(est==='no_finalizado'){t.motivo=pick(MOTIVOS);t.obs=OBS_NO[t.motivo]}
+      else {t.obs=pick(OBS_FIN[c]);t.cant=Math.max(P.q[0],Math.round(q0*(0.8+r()*0.45)))}
+      t.historial.push({ts:t.cierre,estado:est,quien:enc,motivo:t.motivo,nota:t.obs,cant:t.cant});
+    }
+    t.estado=est; tasks.push(t);
+  }
+  tasks.sort((a,b)=>a.creado-b.creado).forEach((t,i)=>t.id=1001+i);
+  return {tasks,nextId:1001+tasks.length};
+}
+
+/* ---------- router ---------- */
+function route(){
+  const h=location.hash.replace(/^#\/?/,'').split('/');
+  closeModal();
+  if(h[0]==='admin') renderAdmin(h[1]||'tablero');
+  else if(h[0]==='cuadrilla' && CUAD[h[1]]) renderCuad(h[1]);
+  else renderLogin();
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',route);
+
+/* ---------- LOGIN ---------- */
+function renderLogin(){
+  document.title='Resolutio · Ingresar';
+  $('#app').innerHTML=`
+  <div class="login"><div class="login-card">
+    <h1 class="wm">Resolutio</h1>
+    <div class="muted">De la carga al cierre · Gestión de cuadrillas · Municipalidad de Pilar</div>
+    <h2>Carga de tareas</h2>
+    <button class="role" onclick="location.hash='#/admin/tablero'">
+      ${ric('admin')}
+      <span><b>Administración</b><small class="muted">Laura · Mesa de entradas — carga tareas y ve estadísticas</small></span>
+    </button>
+    <h2>Encargados de cuadrilla</h2>
+    ${Object.entries(CUAD).map(([k,c])=>`
+      <button class="role" onclick="location.hash='#/cuadrilla/${k}'">
+        ${ric(k)}
+        <span><b>Cuadrilla ${c.corto}</b><small class="muted">${c.enc} · actualiza el estado desde el celular</small></span>
+      </button>`).join('')}
+    <div class="tip"><b>Para probar:</b> abrí la Administración en una pestaña y una cuadrilla en otra (o en el celular, en el mismo navegador). Lo que carga uno le aparece al otro en el momento.</div>
+    <div class="foot">Maqueta con datos de ejemplo · <button onclick="resetDemo()">Reiniciar datos</button></div>
+  </div></div>`;
+}
+function resetDemo(){S=seedData();save();toast('Datos de ejemplo reiniciados');route()}
+
+/* ---------- ADMIN ---------- */
+const F={q:'',c:'',e:'activas',l:''};
+let PER=30;
+function renderAdmin(tab){
+  document.title='Resolutio · Administración';
+  const tabs=[['tablero','Tablero'],['nueva','+ Nueva tarea'],['stats','Estadísticas']];
+  $('#app').innerHTML=`
+  <header class="top">
+    <div class="brand"><span class="wm">Resolutio</span><small>Administración</small></div>
+    <nav class="tabs">${tabs.map(([k,l])=>`<a href="#/admin/${k}" class="${tab===k?'on':''}">${l}</a>`).join('')}</nav>
+    <div class="who">${esc(ADMIN)} <a class="salir" href="#/">Salir</a></div>
+  </header>
+  <main class="wrap" id="view"></main>`;
+  ({tablero:viewTablero,nueva:viewNueva,stats:viewStats}[tab]||viewTablero)();
+}
+
+function viewTablero(){
+  const T=S.tasks, now=Date.now();
+  const fin30=T.filter(t=>t.estado==='finalizado'&&now-t.cierre<30*D);
+  const res=avg(fin30.map(t=>t.cierre-t.creado));
+  $('#view').innerHTML=`
+  <div class="h"><h1>Tablero de tareas</h1><a class="btn" href="#/admin/nueva" style="text-decoration:none">+ Nueva tarea</a></div>
+  <div class="kpis">
+    <div class="kpi blue"><div class="v">${T.filter(abierta).length}</div><div class="l">Abiertas (pendientes + en proceso)</div></div>
+    <div class="kpi red"><div class="v">${T.filter(vencida).length}</div><div class="l">Vencidas (fuera de plazo)</div></div>
+    <div class="kpi amber"><div class="v">${T.filter(t=>t.estado==='no_finalizado').length}</div><div class="l">No finalizadas · a reprogramar</div></div>
+    <div class="kpi green"><div class="v">${fin30.length}</div><div class="l">Finalizadas últimos 30 días</div></div>
+    <div class="kpi"><div class="v">${res?dur(res):'—'}</div><div class="l">Tiempo promedio de resolución</div></div>
+  </div>
+  <div class="filters">
+    <input id="fq" placeholder="Buscar por dirección, tipo o n.º…" value="${esc(F.q)}">
+    <select id="fc"><option value="">Todas las cuadrillas</option>${Object.entries(CUAD).map(([k,c])=>`<option value="${k}" ${F.c===k?'selected':''}>${c.corto}</option>`).join('')}</select>
+    <select id="fe">${[['activas','Requieren atención'],['','Todos los estados'],['vencidas','Solo vencidas'],...Object.entries(ESTADOS).map(([k,v])=>[k,v.t])].map(([k,l])=>`<option value="${k}" ${F.e===k?'selected':''}>${l}</option>`).join('')}</select>
+    <select id="fl"><option value="">Todas las localidades</option>${LOCALIDADES.map(l=>`<option ${F.l===l?'selected':''}>${l}</option>`).join('')}</select>
+  </div>
+  <div class="panel"><table class="tbl">
+    <thead><tr><th>N.º</th><th>Trabajo</th><th>Dirección</th><th>Estado</th><th>Cargada</th><th>Plazo</th></tr></thead>
+    <tbody id="tb"></tbody></table></div>`;
+  ['fq','fc','fe','fl'].forEach(id=>$('#'+id).addEventListener('input',e=>{F[id[1]]=e.target.value;renderTabla()}));
+  renderTabla();
+}
+function renderTabla(){
+  const q=F.q.trim().toLowerCase(), now=Date.now();
+  let L=S.tasks.filter(t=>
+    (!F.c||t.cuadrilla===F.c)&&(!F.l||t.localidad===F.l)&&
+    (F.e===''||(F.e==='activas'?(abierta(t)||t.estado==='no_finalizado'):F.e==='vencidas'?vencida(t):t.estado===F.e))&&
+    (!q||(t.id+' '+t.tipo+' '+t.direccion+' '+t.localidad).toLowerCase().includes(q)));
+  const rank=t=>t.estado==='no_finalizado'?0:vencida(t)?1:t.prioridad==='urgente'&&abierta(t)?2:abierta(t)?3:4;
+  L.sort((a,b)=>rank(a)-rank(b)||b.creado-a.creado);
+  $('#tb').innerHTML=L.length?L.map(t=>{
+    let plazo;
+    if(abierta(t)){const v=vence(t)-now;plazo=v>0?`<span class="muted">Vence en ${dur(v)}</span>`:`<span class="late">Vencida hace ${dur(v)}</span>`}
+    else if(t.estado==='finalizado'){plazo=t.cierre<=vence(t)?`<span class="ok">✓ Resuelta en ${dur(t.cierre-t.creado)}</span>`:`<span class="late">Resuelta en ${dur(t.cierre-t.creado)} (fuera de plazo)</span>`}
+    else plazo=`<span class="late">${esc(t.motivo)}</span>`;
+    return `<tr class="row" onclick="openDetalle(${t.id})">
+      <td class="id">#${t.id}</td>
+      <td><b>${esc(t.tipo)}</b> ${t.prioridad==='urgente'?'<span class="tag urg">Urgente</span>':''}<br>${cqLabel(t.cuadrilla)}</td>
+      <td>${esc(t.direccion)}<br><small class="muted">${esc(t.localidad)}</small></td>
+      <td>${chip(t.estado)}</td>
+      <td>${fecha(t.creado)}<br><small class="muted">${hace(t.creado)}</small></td>
+      <td>${plazo}</td></tr>`}).join('')
+    :`<tr><td colspan="6" class="empty">No hay tareas con estos filtros.</td></tr>`;
+}
+
+function openDetalle(id){
+  const t=S.tasks.find(x=>x.id===id); if(!t) return;
+  const cls=e=>ESTADOS[e].c;
+  $('#modal').innerHTML=`<div class="ov" onclick="if(event.target===this)closeModal()"><div class="md">
+    <div class="md-h"><div><small class="muted">Tarea #${t.id}</small><h2>${esc(t.tipo)}</h2><div style="margin-top:6px">${chip(t.estado)} ${t.prioridad==='urgente'?'<span class="tag urg">Urgente</span>':''}</div></div><button class="x" onclick="closeModal()">×</button></div>
+    <div class="md-b">
+      <div class="kv">
+        <div><span>Cuadrilla</span>${cqLabel(t.cuadrilla)} · ${CUAD[t.cuadrilla].enc}</div>
+        <div><span>Dirección</span>${esc(t.direccion)}, ${esc(t.localidad)}</div>
+        <div><span>Cargada</span>${fecha(t.creado)} por ${esc(t.cargadoPor)}</div>
+        <div><span>Plazo objetivo</span>${slaDias(t)} días · vence ${fecha(vence(t))}</div>
+        <div><span>Primera atención</span>${t.inicio?dur(t.inicio-t.creado)+' después de cargada':'—'}</div>
+        <div><span>Resolución (carga → hecho)</span>${t.estado==='finalizado'?dur(t.cierre-t.creado):'—'}</div>
+        <div><span>Cantidad estimada</span>${t.cantEst!=null?fq(t.cantEst,prod(t)):'—'}</div>
+        <div><span>Cantidad realizada</span>${t.cant!=null?'<b>'+fq(t.cant,prod(t))+'</b>':'—'}</div>
+      </div>
+      ${t.descripcion?`<div class="box"><small class="muted">Descripción</small><br>${esc(t.descripcion)}</div>`:''}
+      <h3 style="font-size:15px;margin:0 0 10px">Historial</h3>
+      <ul class="tl">${t.historial.map(h=>`<li class="${cls(h.estado)}"><b>${ESTADOS[h.estado].t}</b> <small>· ${fecha(h.ts)} · ${esc(h.quien)}</small>
+        ${h.motivo?`<br><span class="late">${esc(h.motivo)}</span>`:''}${h.nota?`<br><small>“${esc(h.nota)}”</small>`:''}</li>`).join('')}</ul>
+      ${t.estado==='no_finalizado'?`
+      <div class="box" style="margin-top:6px"><b>Reprogramar</b><div class="muted" style="font-size:13px;margin-bottom:10px">Vuelve a quedar pendiente. El tiempo se sigue midiendo desde la carga original.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><select id="rp" style="flex:1;border:1px solid var(--line);border-radius:10px;padding:9px">${Object.entries(CUAD).map(([k,c])=>`<option value="${k}" ${k===t.cuadrilla?'selected':''}>Asignar a ${c.corto}</option>`).join('')}</select>
+        <button class="btn" onclick="reprogramar(${t.id})">Reprogramar</button></div></div>`:''}
+    </div></div></div>`;
+}
+function reprogramar(id){
+  const t=S.tasks.find(x=>x.id===id), nc=$('#rp').value;
+  if(nc!==t.cuadrilla){ if(!TIPOS[nc].some(p=>p.n===t.tipo)) t.tipo=TIPOS[nc][0].n; t.cuadrilla=nc; }
+  Object.assign(t,{estado:'pendiente',inicio:null,cierre:null,motivo:'',obs:'',vista:false});
+  t.historial.push({ts:Date.now(),estado:'pendiente',quien:ADMIN,nota:'Reprogramada y asignada a '+CUAD[nc].corto});
+  save();closeModal();toast(`Tarea <b>#${id}</b> reprogramada. ${CUAD[nc].enc} recibe el aviso.`);viewTablero();
+}
+function closeModal(){$('#modal').innerHTML=''}
+
+function viewNueva(){
+  let c='poda';
+  $('#view').innerHTML=`
+  <div class="h"><h1>Nueva tarea</h1></div>
+  <form class="form" id="fn" onsubmit="return false">
+    <div class="f"><label>Cuadrilla</label><div class="seg" id="seg">${Object.entries(CUAD).map(([k,v])=>`<button type="button" data-c="${k}" class="${k===c?'on':''}">${ric(k,'s')} ${v.corto}</button>`).join('')}</div></div>
+    <div class="grid2">
+      <div class="f"><label>Producto / trabajo</label><select id="nt"></select></div>
+      <div class="f"><label>Prioridad</label><select id="np"><option value="normal">Normal</option><option value="urgente">Urgente (plazo a la mitad)</option></select></div>
+      <div class="f"><label>Dirección *</label><input id="nd" placeholder="Ej: Belgrano 1250"></div>
+      <div class="f"><label>Localidad</label><select id="nl">${LOCALIDADES.map(l=>`<option>${l}</option>`).join('')}</select></div>
+      <div class="f"><label>Cantidad estimada (opcional)</label><div class="qty"><input id="nq" type="number" min="0" step="any" placeholder="Ej: 3"><span id="nu"></span></div></div>
+    </div>
+    <div class="f"><label>Descripción / referencia (opcional)</label><textarea id="nx" maxlength="300" placeholder="Ej: frente a la escuela, bache grande sobre mano derecha"></textarea></div>
+    <div class="f"><label>Foto (opcional)</label><input type="file" accept="image/*"></div>
+    <div class="box" id="plz" style="font-size:13.5px"></div>
+    <div class="actions"><a class="btn ghost" href="#/admin/tablero" style="text-decoration:none">Cancelar</a><button class="btn" id="ng">Cargar y asignar</button></div>
+  </form>`;
+  const fillTipos=()=>{$('#nt').innerHTML=TIPOS[c].map(p=>`<option>${p.n}</option>`).join('');plazo()};
+  const plazo=()=>{const tt={cuadrilla:c,tipo:$('#nt').value,prioridad:$('#np').value},d=slaDias(tt);$('#nu').textContent=prod(tt).up;$('#plz').innerHTML=`Plazo objetivo: <b>${d} día${d>1?'s':''}</b>. Al guardar, ${CUAD[c].enc} (encargado de ${CUAD[c].corto}) recibe el aviso en el celular.`};
+  $('#seg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;c=b.dataset.c;document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x===b));fillTipos()});
+  $('#nt').addEventListener('change',plazo);$('#np').addEventListener('change',plazo);
+  fillTipos();
+  $('#ng').addEventListener('click',()=>{
+    const dir=$('#nd').value.trim(); if(!dir){$('#nd').focus();$('#nd').style.borderColor='var(--nofin)';return}
+    const now=Date.now(), t={id:S.nextId++,cuadrilla:c,tipo:$('#nt').value,direccion:dir,localidad:$('#nl').value,prioridad:$('#np').value,
+      descripcion:$('#nx').value.trim(),cargadoPor:ADMIN,creado:now,inicio:null,cierre:null,estado:'pendiente',motivo:'',obs:'',vista:false,
+      cantEst:$('#nq').value?parseFloat($('#nq').value):null,cant:null,
+      historial:[{ts:now,estado:'pendiente',quien:ADMIN,nota:'Cargada y asignada a '+CUAD[c].corto}]};
+    S.tasks.push(t);save();
+    toast(`Tarea <b>#${t.id}</b> cargada. ${CUAD[c].enc} ya la tiene en el celular.`);
+    location.hash='#/admin/tablero';
+  });
+}
+
+/* ---------- ESTADÍSTICAS: General → Cuadrilla → Producto ---------- */
+function statArgs(){const h=location.hash.replace(/^#\/?/,'').split('/');return {c:CUAD[h[2]]?h[2]:'',p:(CUAD[h[2]]&&h[3]!==undefined&&h[3]!=='')?+h[3]:null}}
+function met(a){
+  const f=a.filter(t=>t.estado==='finalizado');
+  return {n:a.length,f:f.length,ab:a.filter(abierta).length,nf:a.filter(t=>t.estado==='no_finalizado').length,venc:a.filter(vencida).length,
+    res:avg(f.map(t=>t.cierre-t.creado)),med:median(f.map(t=>t.cierre-t.creado)),
+    aten:avg(a.filter(t=>t.inicio).map(t=>t.inicio-t.creado)),
+    espF:avg(f.map(t=>t.inicio-t.creado)),ejeF:avg(f.map(t=>t.cierre-t.inicio)),
+    plazo:f.length?f.filter(t=>t.cierre<=vence(t)).length/f.length:null,
+    q:f.reduce((x,t)=>x+(t.cant||0),0),fin:f};
+}
+const pct=v=>v==null?'—':Math.round(v*100)+'%';
+const dd=v=>v==null?'—':dur(v);
+function bars(rows,max,fmt){return rows.map(r=>`<div class="bar-row"><span>${r.label}</span><div class="bar"><span style="width:${r.v==null||!max?0:Math.max(3,r.v/max*100)}%;background:${r.color}"></span></div><span class="n">${r.v==null?'—':fmt(r.v)}</span></div>`).join('')}
+function kpiRow(m,extra){
+  return `<div class="kpis">
+    <div class="kpi blue"><div class="v">${m.n}</div><div class="l">Tareas cargadas</div><div class="s">${m.ab} abiertas · ${m.venc} vencidas</div></div>
+    <div class="kpi green"><div class="v">${m.f}</div><div class="l">Finalizadas</div><div class="s">${m.n?pct(m.f/m.n)+' de lo cargado':'—'}</div></div>
+    ${extra||`<div class="kpi amber"><div class="v">${m.nf}</div><div class="l">No finalizadas</div><div class="s">esperando reprogramación</div></div>`}
+    <div class="kpi"><div class="v">${dd(m.res)}</div><div class="l">Carga → hecho (promedio)</div><div class="s">mediana ${dd(m.med)}</div></div>
+    <div class="kpi red"><div class="v" style="color:var(--ink)">${pct(m.plazo)}</div><div class="l">Resueltas dentro del plazo</div><div class="s">primera atención ${dd(m.aten)}</div></div>
+  </div>`;
+}
+function cardFlujo(m,wide){
+  const tot=(m.espF||0)+(m.ejeF||0);
+  return `<div class="card ${wide?'wide':''}"><h3>De la carga al cierre</h3><p class="d">Promedio de las tareas finalizadas: cuánto esperan hasta que la cuadrilla las toma y cuánto tardan en marcarse como hechas</p>
+    ${tot?`<div class="flow"><span style="width:${m.espF/tot*100}%;background:#7c8380">${dur(m.espF)}</span><span style="width:${m.ejeF/tot*100}%;background:var(--brand2)">${dur(m.ejeF)}</span></div>
+    <div class="legend"><span><i style="background:#7c8380"></i>Espera (carga → la toma la cuadrilla)</span><span><i style="background:var(--brand2)"></i>Ejecución (la toma → hecho)</span><span><b style="color:var(--ink)">Total ${dur(tot)}</b></span></div>`:'<div class="muted">Sin tareas finalizadas en el período.</div>'}</div>`;
+}
+function cardBuckets(fin){
+  const B=[['Menos de 1 día',0,1],['1 a 3 días',1,3],['3 a 7 días',3,7],['7 a 15 días',7,15],['Más de 15 días',15,1e9]];
+  const rows=B.map(([l,a,b])=>({label:l,v:fin.filter(t=>{const d=(t.cierre-t.creado)/D;return d>=a&&d<b}).length,color:'#0e6bb5'}));
+  const mx=Math.max(1,...rows.map(r=>r.v));
+  return `<div class="card"><h3>¿Cuánto tardan en resolverse?</h3><p class="d">Tareas finalizadas según el tiempo entre la carga y el cierre</p>
+    ${fin.length?bars(rows,mx,n=>n+' tarea'+(n===1?'':'s')):'<div class="muted">Sin tareas finalizadas en el período.</div>'}</div>`;
+}
+function cardSemanas(scope,wide){
+  const d0=new Date();d0.setHours(0,0,0,0);d0.setDate(d0.getDate()-((d0.getDay()+6)%7));
+  const W=[];for(let i=7;i>=0;i--){const a=d0.getTime()-i*7*D,b=a+7*D;
+    W.push({a,c:scope.filter(t=>t.creado>=a&&t.creado<b).length,f:scope.filter(t=>t.estado==='finalizado'&&t.cierre>=a&&t.cierre<b).length})}
+  const mx=Math.max(1,...W.map(w=>Math.max(w.c,w.f)));
+  return `<div class="card ${wide?'wide':''}"><h3>Evolución semanal</h3><p class="d">Tareas cargadas y finalizadas por semana (últimas 8 semanas)</p>
+    <div class="cols" style="margin-top:22px">${W.map(w=>`<div class="wk"><span style="height:${w.c/mx*100}%;background:#9fb9d6"><b>${w.c}</b></span><span style="height:${w.f/mx*100}%;background:var(--fin)"><b>${w.f}</b></span></div>`).join('')}</div>
+    <div class="xl">${W.map(w=>{const d=new Date(w.a);return `<span>${pad(d.getDate())}/${pad(d.getMonth()+1)}</span>`}).join('')}</div>
+    <div class="legend"><span><i style="background:#9fb9d6"></i>Cargadas</span><span><i style="background:var(--fin)"></i>Finalizadas</span></div></div>`;
+}
+function cardMotivos(T){
+  const mo={};T.forEach(t=>t.historial.forEach(h=>{if(h.estado==='no_finalizado')mo[h.motivo]=(mo[h.motivo]||0)+1}));
+  const L=Object.entries(mo).sort((a,b)=>b[1]-a[1]);
+  return `<div class="card"><h3>Motivos de “no finalizado”</h3><p class="d">Por qué no se pudo terminar el trabajo</p>
+    ${L.length?bars(L.map(([m,n])=>({label:m.length>18?m.slice(0,17)+'…':m,v:n,color:'#c53030'})),L[0][1],n=>n+(n>1?' veces':' vez')):'<div class="muted">Sin registros en el período.</div>'}</div>`;
+}
+function cardLocalidad(T){
+  const lo={};T.forEach(t=>lo[t.localidad]=(lo[t.localidad]||0)+1);const L=Object.entries(lo).sort((a,b)=>b[1]-a[1]);
+  return `<div class="card"><h3>Pedidos por localidad</h3><p class="d">Dónde se concentran los trabajos</p>
+    ${L.length?bars(L.map(([l,n])=>({label:l,v:n,color:'#0e6bb5'})),L[0][1],n=>n):'<div class="muted">Sin datos.</div>'}</div>`;
+}
+
+function viewStats(){
+  const {c,p}=statArgs(), now=Date.now();
+  const inPer=t=>!PER||now-t.creado<PER*D;
+  const head=`<div class="h"><h1>Estadísticas</h1>
+    <div class="per">${[[7,'7 días'],[30,'30 días'],[60,'60 días'],[0,'Todo']].map(([v,l])=>`<button class="${PER===v?'on':''}" onclick="PER=${v};viewStats()">${l}</button>`).join('')}</div></div>
+    <div class="stabs">${[['','General'],...Object.entries(CUAD).map(([k,v])=>[k,v.corto])].map(([k,l])=>`<a href="#/admin/stats${k?'/'+k:''}" class="${c===k?'on':''}">${k?ric(k,'xs'):''}${l}</a>`).join('')}</div>`;
+  let body;
+  if(!c) body=statsGeneral(S.tasks.filter(inPer));
+  else if(p==null||!TIPOS[c][p]) body=statsCuad(c,S.tasks.filter(t=>t.cuadrilla===c),inPer);
+  else body=statsProd(c,p,S.tasks.filter(t=>t.cuadrilla===c&&t.tipo===TIPOS[c][p].n),inPer);
+  $('#view').innerHTML=head+body;
+}
+
+function statsGeneral(T){
+  const m=met(T), keys=Object.keys(CUAD), per=keys.map(k=>({k,m:met(T.filter(t=>t.cuadrilla===k))}));
+  const mRes=Math.max(1,...per.map(x=>x.m.res||0)), mAt=Math.max(1,...per.map(x=>x.m.aten||0));
+  return kpiRow(m)+`<div class="stats">
+    <div class="card wide"><h3>Comparativo por cuadrilla</h3><p class="d">Tocá una cuadrilla para ver el detalle por producto</p>
+      <div class="scroll"><table class="mini"><thead><tr><th>Cuadrilla</th><th class="r">Cargadas</th><th class="r">Finalizadas</th><th class="r">Abiertas</th><th class="r">Vencidas</th><th class="r">1.ª atención</th><th class="r">Carga → hecho</th><th class="r">En plazo</th><th></th></tr></thead><tbody>
+      ${per.map(({k,m})=>`<tr class="click" onclick="location.hash='#/admin/stats/${k}'"><td>${ric(k,'xs')}<b>${CUAD[k].corto}</b> <small class="muted">· ${CUAD[k].enc}</small></td><td class="r">${m.n}</td><td class="r">${m.f}</td><td class="r">${m.ab}</td><td class="r ${m.venc?'late':''}">${m.venc}</td><td class="r">${dd(m.aten)}</td><td class="r"><b>${dd(m.res)}</b></td><td class="r">${pct(m.plazo)}</td><td class="r go">›</td></tr>`).join('')}
+      </tbody></table></div></div>
+    <div class="card"><h3>Carga → hecho por cuadrilla</h3><p class="d">Tiempo promedio desde que se carga hasta que se marca finalizada</p>
+      ${bars(per.map(({k,m})=>({label:ric(k,'xs')+CUAD[k].corto,v:m.res,color:CUAD[k].hex})),mRes,dur)}</div>
+    <div class="card"><h3>Tiempo hasta la primera atención</h3><p class="d">Cuánto tarda cada cuadrilla en tomar la tarea</p>
+      ${bars(per.map(({k,m})=>({label:ric(k,'xs')+CUAD[k].corto,v:m.aten,color:CUAD[k].hex})),mAt,dur)}</div>
+    <div class="card wide"><h3>Producción del período</h3><p class="d">Lo realizado por cada cuadrilla, por producto (solo tareas finalizadas)</p>
+      <div class="big3">${keys.map(k=>`<div><div style="margin-bottom:8px">${ric(k,'xs')}<b style="display:inline;font-size:15px;color:var(--ink)">${CUAD[k].corto}</b></div>
+        ${TIPOS[k].map((pp,i)=>{const f=T.filter(t=>t.cuadrilla===k&&t.tipo===pp.n&&t.estado==='finalizado'),q=f.reduce((x,t)=>x+(t.cant||0),0);
+          return `<div style="display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-top:1px solid var(--line);font-size:13.5px;cursor:pointer;background:none;border-radius:0" onclick="location.hash='#/admin/stats/${k}/${i}'"><span>${pp.n}</span><b style="font-size:13.5px;display:inline;color:var(--ink)">${f.length?fq(q,pp):'—'}</b></div>`}).join('')}</div>`).join('')}</div></div>
+    ${cardFlujo(m)}${cardBuckets(m.fin)}
+    ${cardSemanas(S.tasks,true)}
+    ${cardMotivos(T)}${cardLocalidad(T)}
+  </div>`;
+}
+
+function statsCuad(c,all,inPer){
+  const T=all.filter(inPer), m=met(T), C=CUAD[c];
+  const rows=TIPOS[c].map((pp,i)=>({pp,i,m:met(T.filter(t=>t.tipo===pp.n))}));
+  return `<div class="sub-h">${ric(c)}<div><h2>Cuadrilla ${C.corto}</h2><small>Encargado: ${C.enc}</small></div></div>`+kpiRow(m)+`<div class="stats">
+    <div class="card wide"><h3>Productos de la cuadrilla</h3><p class="d">Tocá un producto para ver sus tareas y tiempos</p>
+      <div class="scroll"><table class="mini"><thead><tr><th>Producto</th><th class="r">Cargadas</th><th class="r">Finalizadas</th><th class="r">Abiertas</th><th class="r">Producción</th><th class="r">Carga → hecho</th><th class="r">Plazo obj.</th><th class="r">En plazo</th><th></th></tr></thead><tbody>
+      ${rows.map(({pp,i,m})=>`<tr class="click" onclick="location.hash='#/admin/stats/${c}/${i}'"><td><b>${pp.n}</b> <small class="muted">· por ${pp.u}</small></td><td class="r">${m.n}</td><td class="r">${m.f}</td><td class="r">${m.ab}</td><td class="r"><b>${m.f?fq(m.q,pp):'—'}</b></td><td class="r"><b>${dd(m.res)}</b></td><td class="r">${pp.sla} d</td><td class="r">${pct(m.plazo)}</td><td class="r go">›</td></tr>`).join('')}
+      </tbody></table></div></div>
+    <div class="card"><h3>Carga → hecho por producto</h3><p class="d">Tiempo promedio de resolución de cada producto</p>
+      ${bars(rows.map(({pp,m})=>({label:pp.n.length>16?pp.n.slice(0,15)+'…':pp.n,v:m.res,color:C.hex})),Math.max(1,...rows.map(r=>r.m.res||0)),dur)}</div>
+    ${cardFlujo(m)}
+    ${cardBuckets(m.fin)}${cardMotivos(T)}
+    ${cardSemanas(all,true)}
+    ${cardLocalidad(T)}
+  </div>`;
+}
+
+function statsProd(c,i,all,inPer){
+  const pp=TIPOS[c][i], C=CUAD[c], T=all.filter(inPer), m=met(T);
+  const L=[...T].sort((a,b)=>b.creado-a.creado);
+  const extra=`<div class="kpi amber"><div class="v">${m.f?fq(m.q,pp):'—'}</div><div class="l">Producción realizada</div><div class="s">${m.f?'promedio '+fq(Math.round(m.q/m.f*10)/10,pp)+' por tarea':'—'}</div></div>`;
+  return `<div class="crumb"><a href="#/admin/stats">General</a> › <a href="#/admin/stats/${c}">Cuadrilla ${C.corto}</a> › ${pp.n}</div>
+    <div class="sub-h">${ric(c)}<div><h2>${pp.n}</h2><small>Cuadrilla ${C.corto} · se mide por ${pp.u} · plazo objetivo ${pp.sla} días</small></div></div>`
+    +kpiRow(m,extra)+`<div class="stats">
+    ${cardFlujo(m)}${cardBuckets(m.fin)}
+    ${cardSemanas(all,true)}
+    <div class="card wide"><h3>Tareas de ${pp.n}</h3><p class="d">${T.length} tareas en el período · tocá una para ver el historial</p>
+      <div class="scroll"><table class="mini"><thead><tr><th>N.º</th><th>Dirección</th><th>Cargada</th><th>Hecha</th><th class="r">Carga → hecho</th><th class="r">Cantidad</th><th>Estado</th></tr></thead><tbody>
+      ${L.length?L.map(t=>`<tr class="click" onclick="openDetalle(${t.id})"><td class="muted">#${t.id}</td><td>${esc(t.direccion)} <small class="muted">· ${esc(t.localidad)}</small></td><td>${fecha(t.creado)}</td><td>${t.estado==='finalizado'?fecha(t.cierre):'—'}</td>
+        <td class="r">${t.estado==='finalizado'?`<b class="${t.cierre<=vence(t)?'ok':'late'}">${dur(t.cierre-t.creado)}</b>`:abierta(t)?`<small class="muted">abierta hace ${dur(Date.now()-t.creado)}</small>`:'—'}</td>
+        <td class="r">${t.cant!=null?fq(t.cant,pp):t.cantEst!=null?`<small class="muted">est. ${fq(t.cantEst,pp)}</small>`:'—'}</td><td>${chip(t.estado)}</td></tr>`).join(''):`<tr><td colspan="7" class="muted">Sin tareas en el período.</td></tr>`}
+      </tbody></table></div></div>
+  </div>`;
+}
+
+/* ---------- CUADRILLA ---------- */
+let CTAB='hacer';
+function renderCuad(c){
+  const C=CUAD[c]; document.title='Resolutio · Cuadrilla '+C.corto;
+  const mine=S.tasks.filter(t=>t.cuadrilla===c), now=Date.now();
+  const hacer=mine.filter(abierta).sort((a,b)=>(b.prioridad==='urgente')-(a.prioridad==='urgente')||vence(a)-vence(b));
+  const cerr=mine.filter(t=>!abierta(t)&&now-t.cierre<7*D).sort((a,b)=>b.cierre-a.cierre);
+  const L=CTAB==='hacer'?hacer:cerr;
+  $('#app').innerHTML=`<div class="cq-app">
+    <div class="cq-head">
+      <div class="row1"><div><small>${ric(c,'xs')} Cuadrilla ${C.corto}</small><h1>Hola, ${C.enc}</h1></div><a href="#/">Salir</a></div>
+      <div class="cq-tabs"><button class="${CTAB==='hacer'?'on':''}" onclick="CTAB='hacer';renderCuad('${c}')">Para hacer (${hacer.length})</button>
+        <button class="${CTAB==='cerr'?'on':''}" onclick="CTAB='cerr';renderCuad('${c}')">Cerradas (${cerr.length})</button></div>
+    </div>
+    <div class="list">
+      ${L.length?L.map(t=>{
+        const venc=vencida(t), v=vence(t)-now;
+        return `<button class="tcard ${venc?'vencida':''}" style="${venc?'':'border-left-color:'+ESTADOS[t.estado].hex}" onclick="openSheet(${t.id})">
+          ${(!t.vista||t.prioridad==='urgente')?`<div class="tags">${!t.vista?'<span class="tag new">Nueva</span>':''}${t.prioridad==='urgente'?'<span class="tag urg">Urgente</span>':''}</div>`:''}
+          <div class="t1"><h3>${esc(t.tipo)}</h3>${chip(t.estado)}</div>
+          <div class="dir">${li('pin','#e30613')} ${esc(t.direccion)} · ${esc(t.localidad)}</div>
+          <div class="meta">#${t.id}${t.cantEst!=null&&abierta(t)?' · '+fq(t.cantEst,prod(t)):''} · ${abierta(t)?(venc?`<span class="late">Vencida hace ${dur(v)}</span>`:`Vence en ${dur(v)}`):`Cerrada ${hace(t.cierre)}`}</div>
+        </button>`}).join('')
+      :`<div class="empty">${CTAB==='hacer'?'No hay tareas pendientes.':'Todavía no cerraste tareas esta semana.'}</div>`}
+      <div class="hint">Tocá una tarea para actualizar su estado</div>
+    </div></div>`;
+}
+function openSheet(id){
+  const t=S.tasks.find(x=>x.id===id); if(!t) return;
+  if(!t.vista){t.vista=true;save()}
+  const q=encodeURIComponent(`${t.direccion}, ${t.localidad}, Pilar, Buenos Aires`);
+  const editable=abierta(t);
+  let sel=null;
+  $('#modal').innerHTML=`<div class="ov sheet" onclick="if(event.target===this)closeSheet('${t.cuadrilla}')"><div class="md">
+    <div class="md-h"><div><small class="muted">#${t.id} · ${chip(t.estado)}</small><h2>${esc(t.tipo)}</h2><div>${li('pin','#e30613')} ${esc(t.direccion)} · ${esc(t.localidad)}</div></div><button class="x" onclick="closeSheet('${t.cuadrilla}')">×</button></div>
+    <div class="md-b">
+      ${(t.descripcion||t.cantEst!=null)?`<div class="box">${esc(t.descripcion)}${t.descripcion&&t.cantEst!=null?'<br>':''}${t.cantEst!=null?`<small class="muted">Estimado:</small> <b>${fq(t.cantEst,prod(t))}</b>`:''}</div>`:''}
+      <a class="maps" href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener">${li('map')} Cómo llegar</a>
+      ${editable?`
+      <b>¿Cómo quedó el trabajo?</b>
+      <div class="est" id="est">
+        ${t.estado==='pendiente'?`<button data-e="en_proceso"><span class="dot" style="background:var(--proc)"></span>Empezamos · En proceso</button>`:''}
+        <button data-e="finalizado"><span class="dot" style="background:var(--fin)"></span>Trabajo finalizado</button>
+        <button data-e="no_finalizado"><span class="dot" style="background:var(--nofin)"></span>No se pudo terminar</button>
+      </div>
+      <div id="qw" class="f hidden"><label>Cantidad realizada *</label><div class="qty"><input id="sq" type="number" inputmode="decimal" min="0" step="any" value="${t.cantEst??''}" placeholder="0"><span>${prod(t).up}</span></div></div>
+      <div id="mot" class="f hidden"><label>Motivo *</label><select id="sm"><option value="">Elegí un motivo…</option>${MOTIVOS.map(m=>`<option>${m}</option>`).join('')}</select></div>
+      <div id="obsw" class="f hidden"><label id="obsl">Comentario (opcional)</label><textarea id="so" maxlength="200" rows="3" placeholder="Escribí algo breve…"></textarea><div class="cnt"><span id="sc">0</span>/200</div></div>
+      <label class="foto hidden" id="fw">${li('cam')} <span id="ft">Sacar foto (opcional)</span><input type="file" accept="image/*" capture="environment" hidden id="sf"></label>
+      <button class="btn big" id="sg" disabled>Guardar</button>`
+      :`<div class="box"><b>${ESTADOS[t.estado].t}</b> ${hace(t.cierre)}${t.cant!=null?` · ${fq(t.cant,prod(t))}`:''}${t.motivo?`<br><span class="late">${esc(t.motivo)}</span>`:''}${t.obs?`<br>“${esc(t.obs)}”`:''}</div>`}
+    </div></div></div>`;
+  if(!editable) return;
+  const check=()=>{
+    let ok=!!sel;
+    if(sel==='finalizado'){ok=ok&&parseFloat($('#sq').value)>0}
+    if(sel==='no_finalizado'){ok=ok&&!!$('#sm').value; if($('#sm').value==='Otro') ok=ok&&$('#so').value.trim().length>0}
+    $('#sg').disabled=!ok;
+  };
+  $('#est').addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b) return; sel=b.dataset.e;
+    document.querySelectorAll('#est button').forEach(x=>x.classList.toggle('on',x===b));
+    const nf=sel==='no_finalizado';
+    $('#mot').classList.toggle('hidden',!nf);
+    $('#qw').classList.toggle('hidden',sel!=='finalizado');
+    $('#obsw').classList.remove('hidden'); $('#fw').classList.toggle('hidden',sel==='en_proceso');
+    $('#obsl').textContent=nf?'Observaciones: ¿por qué no se terminó?':'Comentario (opcional)';
+    check();
+  });
+  $('#sm').addEventListener('change',()=>{$('#obsl').textContent=$('#sm').value==='Otro'?'Observaciones * (contá qué pasó)':'Observaciones: ¿por qué no se terminó?';check()});
+  $('#so').addEventListener('input',()=>{$('#sc').textContent=$('#so').value.length;check()});
+  $('#sq').addEventListener('input',check);
+  $('#sf').addEventListener('change',e=>{if(e.target.files[0]){$('#fw').classList.add('ok');$('#ft').textContent='Foto adjunta ✓'}});
+  $('#sg').addEventListener('click',()=>{
+    const now=Date.now(), C=CUAD[t.cuadrilla];
+    t.estado=sel; if(!t.inicio) t.inicio=now;
+    const h={ts:now,estado:sel,quien:`${C.enc} (Encargado ${C.corto})`,nota:$('#so').value.trim()};
+    if(sel!=='en_proceso'){t.cierre=now;t.obs=h.nota;if(sel==='no_finalizado'){t.motivo=$('#sm').value;h.motivo=t.motivo}
+      if(sel==='finalizado'){t.cant=parseFloat($('#sq').value);h.cant=t.cant}}
+    t.historial.push(h); save();
+    toast(sel==='finalizado'?'<b>¡Listo!</b> La administración ya lo ve como finalizado.':sel==='no_finalizado'?'Guardado. La administración lo va a reprogramar.':'Guardado como <b>en proceso</b>.');
+    closeSheet(t.cuadrilla);
+  });
+}
+function closeSheet(c){closeModal();renderCuad(c)}
+
+/* ---------- sincronización en vivo entre pestañas (simula los avisos) ---------- */
+window.addEventListener('storage',e=>{
+  if(e.key!==KEY||!e.newValue) return;
+  const old=S; try{S=JSON.parse(e.newValue)}catch(_){return}
+  const h=location.hash.replace(/^#\/?/,'').split('/');
+  const prev=new Map(old.tasks.map(t=>[t.id,t]));
+  if(h[0]==='cuadrilla'&&CUAD[h[1]]){
+    S.tasks.filter(t=>t.cuadrilla===h[1]&&!t.vista&&(!prev.has(t.id)||prev.get(t.id).estado!=='pendiente'||prev.get(t.id).cuadrilla!==h[1]))
+      .forEach(t=>{toast(`<b>Nueva tarea:</b> ${esc(t.tipo)} en ${esc(t.direccion)}`);try{navigator.vibrate&&navigator.vibrate(200)}catch(_){}});
+    if(!$('#modal').innerHTML) renderCuad(h[1]);
+  } else if(h[0]==='admin'){
+    S.tasks.forEach(t=>{const p=prev.get(t.id);if(p&&p.estado!==t.estado&&t.estado!=='pendiente')
+      toast(`<b>${CUAD[t.cuadrilla].corto}</b>: #${t.id} ${esc(t.tipo)} → ${ESTADOS[t.estado].t}`)});
+    if(h[1]==='stats') viewStats(); else if(!h[1]||h[1]==='tablero'){ if(!$('#modal').innerHTML) renderTabla(); }
+  }
+});
+
+/* ---------- inicio ---------- */
+S=load()||seedData(); save(); route();
+</script>
+</body>
+</html>
