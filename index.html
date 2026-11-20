@@ -54,15 +54,48 @@ small{font-size:12.5px}
 .wm{font-family:"Nunito",system-ui,sans-serif;font-weight:900;letter-spacing:-.5px;line-height:1}
 
 /* ---------- LOGIN ---------- */
-.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:var(--bg)}
-.login-card{background:#fff;border-radius:20px;max-width:460px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
-.login h1.wm{margin:0 0 6px;font-size:44px;color:var(--brand)}
-.login h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:22px 0 10px}
-.role{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--box);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:10px;transition:.15s}
-.role:hover{border-color:var(--brand2);background:#fff;transform:translateY(-1px)}
-.role .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex:none}
-.role b{display:block}
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 24px;background:var(--bg)}
+.login-card{background:#fff;border-radius:20px;max-width:1080px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25);display:grid;grid-template-columns:5fr 7fr;overflow:hidden}
+.login-left{padding:44px 40px;display:flex;flex-direction:column;border-right:1px solid var(--line)}
+.login-right{padding:44px 40px;background:#fafcfe}
+.login h1.wm{margin:0 0 10px;font-size:58px;color:var(--brand)}
+.login .lead{font-size:17px;color:var(--ink);margin:0 0 6px;font-weight:600}
+.login .sub{color:var(--muted);margin:0 0 26px}
+.login h2{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0 0 12px}
+.how{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:12px}
+.how li{display:flex;gap:12px;align-items:flex-start;font-size:14px}
+.how li b.n{width:26px;height:26px;border-radius:50%;background:var(--box);color:var(--brand);display:grid;place-items:center;font-size:13px;flex:none;border:1px solid var(--line)}
+.mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:auto}
+.mstats div{background:var(--box);border-radius:12px;padding:12px}
+.mstats b{display:block;font-size:24px;color:var(--brand);line-height:1.1}
+.mstats span{font-size:12px;color:var(--muted)}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.role{display:flex;flex-direction:column;align-items:flex-start;gap:12px;width:100%;text-align:left;background:var(--box);border:1px solid var(--line);border-radius:var(--r);padding:20px;transition:.15s;position:relative}
+.role:hover{border-color:var(--brand2);background:#fff;transform:translateY(-2px);box-shadow:var(--sh)}
+.role.admin{grid-column:1/-1;flex-direction:row;align-items:center}
+.role b{display:block;font-size:17px}
+.role small{color:var(--muted)}
+.role .go2{margin-top:auto;font-size:13px;font-weight:700;color:var(--brand2);white-space:nowrap}
+.role.admin .go2{margin:0 0 0 auto}
 .tip{margin-top:18px;font-size:13px;background:#eaf2fb;border:1px solid #c9dcf2;border-radius:12px;padding:10px 12px}
+.login .foot{text-align:left;padding:14px 0 0}
+@media (max-width:860px){
+  .login{padding:16px;align-items:flex-start}
+  .login-card{grid-template-columns:1fr;max-width:520px}
+  .login-left{padding:26px 24px 8px;border-right:0}
+  .login-right{padding:18px 24px 26px;background:#fff}
+  .login h1.wm{font-size:42px}
+  .how-wrap{display:none}
+  .mstats b{font-size:20px}
+  .mstats{margin:0 0 6px}
+  .roles{grid-template-columns:1fr}
+  .role,.role.admin{flex-direction:row;align-items:center;padding:14px}
+  .role .go2{margin:0 0 0 auto}
+}
+/* botón volver al inicio */
+.home-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);color:#fff!important;text-decoration:none;padding:7px 12px;border-radius:99px;font-size:13px;font-weight:600;white-space:nowrap;opacity:1!important}
+.home-btn:hover{background:rgba(255,255,255,.24)}
+.brand{text-decoration:none;color:#fff}
 
 /* ---------- ADMIN ---------- */
 .top{position:sticky;top:0;z-index:20;background:var(--top);box-shadow:0 2px 10px rgba(0,0,0,.15);color:#fff;display:flex;align-items:center;gap:18px;padding:10px 20px;flex-wrap:wrap}
@@ -73,7 +106,7 @@ small{font-size:12.5px}
 .tabs a.on{background:rgba(255,255,255,.16);opacity:1;font-weight:600}
 .tabs a:hover{opacity:1}
 .who{font-size:13px;opacity:.9;white-space:nowrap}
-.salir{color:#fff;margin-left:8px;opacity:.8}
+.salir{display:none}
 .wrap{max-width:1200px;margin:0 auto;padding:22px 20px 60px}
 .h{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .h h1{margin:0;font-size:22px;letter-spacing:-.3px;color:#fff}
@@ -155,7 +188,7 @@ table.tbl{width:100%;border-collapse:collapse}
 .cq-head .row1{display:flex;justify-content:space-between;align-items:center}
 .cq-head h1{margin:0;font-size:20px}
 .cq-head small{opacity:.85}
-.cq-head a{color:#fff;opacity:.85;font-size:14px}
+.cq-head a{color:#fff;font-size:13px}
 .cq-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px;background:rgba(0,0,0,.18);border-radius:12px;padding:4px}
 .cq-tabs button{border:0;background:transparent;color:#fff;padding:10px;border-radius:9px;font-weight:600;opacity:.85}
 .cq-tabs button.on{background:#fff;color:var(--ink);opacity:1}
@@ -216,6 +249,8 @@ table.tbl{width:100%;border-collapse:collapse}
 @media (max-width:720px){
   .top{padding:10px 14px;gap:8px}
   .who{display:none}
+  .tabs{flex:0 0 100%}
+  .home-btn{margin-left:auto}
   .tabs{order:3;width:100%}
   .wrap{padding:16px 12px 50px}
   .grid2,.kv{grid-template-columns:1fr}
@@ -295,6 +330,7 @@ const P = {
   cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'
 };
 const ICON = {admin:SV(P.admin),poda:SV(P.poda),calles:SV(P.calles),limpieza:SV(P.limpieza)};
+const HOMEI = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
 const ric = (k,cls='') => `<span class="ric ${cls}">${ICON[k]}</span>`;
 const li = (k,c='currentColor') => SV(P[k],c).replace('<svg','<svg class="li"');
 const H = 3600e3, D = 24*H;
@@ -383,24 +419,45 @@ window.addEventListener('hashchange',route);
 
 /* ---------- LOGIN ---------- */
 function renderLogin(){
-  document.title='Resolutio · Ingresar';
+  document.title='Resolutio · Inicio';
+  const T=S.tasks, now=Date.now(), f30=T.filter(t=>t.estado==='finalizado'&&now-t.cierre<30*D);
+  const r=avg(f30.map(t=>t.cierre-t.creado));
   $('#app').innerHTML=`
   <div class="login"><div class="login-card">
-    <h1 class="wm">Resolutio</h1>
-    <div class="muted">De la carga al cierre · Gestión de cuadrillas · Municipalidad de Pilar</div>
-    <h2>Carga de tareas</h2>
-    <button class="role" onclick="location.hash='#/admin/tablero'">
-      ${ric('admin')}
-      <span><b>Administración</b><small class="muted">Laura · Mesa de entradas — carga tareas y ve estadísticas</small></span>
-    </button>
-    <h2>Encargados de cuadrilla</h2>
-    ${Object.entries(CUAD).map(([k,c])=>`
-      <button class="role" onclick="location.hash='#/cuadrilla/${k}'">
-        ${ric(k)}
-        <span><b>Cuadrilla ${c.corto}</b><small class="muted">${c.enc} · actualiza el estado desde el celular</small></span>
-      </button>`).join('')}
-    <div class="tip"><b>Para probar:</b> abrí la Administración en una pestaña y una cuadrilla en otra (o en el celular, en el mismo navegador). Lo que carga uno le aparece al otro en el momento.</div>
-    <div class="foot">Maqueta con datos de ejemplo · <button onclick="resetDemo()">Reiniciar datos</button></div>
+    <div class="login-left">
+      <h1 class="wm">Resolutio</h1>
+      <p class="lead">De la carga al cierre.</p>
+      <p class="sub">Gestión de trabajos de cuadrillas · Municipalidad de Pilar</p>
+      <div class="how-wrap"><h2>Cómo funciona</h2>
+      <ul class="how">
+        <li><b class="n">1</b><span><b>Administración</b> carga la tarea y la asigna a una cuadrilla.</span></li>
+        <li><b class="n">2</b><span>El <b>encargado</b> la recibe en el celular y marca el estado: en proceso, finalizado o no finalizado.</span></li>
+        <li><b class="n">3</b><span>Cada paso queda registrado y se arman las <b>estadísticas</b> de tiempos y producción.</span></li>
+      </ul></div>
+      <div class="mstats">
+        <div><b>${T.filter(abierta).length}</b><span>tareas abiertas</span></div>
+        <div><b>${f30.length}</b><span>finalizadas (30 días)</span></div>
+        <div><b>${r?dur(r):'—'}</b><span>carga → hecho</span></div>
+      </div>
+    </div>
+    <div class="login-right">
+      <h2>¿Quién ingresa?</h2>
+      <div class="roles">
+        <button class="role admin" onclick="location.hash='#/admin/tablero'">
+          ${ric('admin')}
+          <span><b>Administración</b><small>Laura · Mesa de entradas — carga tareas y ve estadísticas</small></span>
+          <span class="go2">Entrar →</span>
+        </button>
+        ${Object.entries(CUAD).map(([k,c])=>{const n=T.filter(t=>t.cuadrilla===k&&abierta(t)).length;return `
+        <button class="role" onclick="location.hash='#/cuadrilla/${k}'">
+          ${ric(k)}
+          <span><b>Cuadrilla ${c.corto}</b><small>${c.enc} · ${n} tarea${n===1?'':'s'} para hacer</small></span>
+          <span class="go2">Entrar →</span>
+        </button>`}).join('')}
+      </div>
+      <div class="tip"><b>Para probar:</b> abrí la Administración en una pestaña y una cuadrilla en otra. Lo que carga uno le aparece al otro en el momento. Para volver a esta pantalla usá <b>“Cambiar usuario”</b>.</div>
+      <div class="foot">Maqueta con datos de ejemplo · <button onclick="resetDemo()">Reiniciar datos</button></div>
+    </div>
   </div></div>`;
 }
 function resetDemo(){S=seedData();save();toast('Datos de ejemplo reiniciados');route()}
@@ -413,9 +470,10 @@ function renderAdmin(tab){
   const tabs=[['tablero','Tablero'],['nueva','+ Nueva tarea'],['stats','Estadísticas']];
   $('#app').innerHTML=`
   <header class="top">
-    <div class="brand"><span class="wm">Resolutio</span><small>Administración</small></div>
+    <a class="brand" href="#/" title="Volver al inicio"><span class="wm">Resolutio</span><small>Administración</small></a>
     <nav class="tabs">${tabs.map(([k,l])=>`<a href="#/admin/${k}" class="${tab===k?'on':''}">${l}</a>`).join('')}</nav>
-    <div class="who">${esc(ADMIN)} <a class="salir" href="#/">Salir</a></div>
+    <div class="who">${esc(ADMIN)}</div>
+    <a class="home-btn" href="#/" title="Volver al inicio">${HOMEI}<span>Cambiar usuario</span></a>
   </header>
   <main class="wrap" id="view"></main>`;
   ({tablero:viewTablero,nueva:viewNueva,stats:viewStats}[tab]||viewTablero)();
@@ -677,7 +735,7 @@ function renderCuad(c){
   const L=CTAB==='hacer'?hacer:cerr;
   $('#app').innerHTML=`<div class="cq-app">
     <div class="cq-head">
-      <div class="row1"><div><small>${ric(c,'xs')} Cuadrilla ${C.corto}</small><h1>Hola, ${C.enc}</h1></div><a href="#/">Salir</a></div>
+      <div class="row1"><div><small>${ric(c,'xs')} Cuadrilla ${C.corto}</small><h1>Hola, ${C.enc}</h1></div><a class="home-btn" href="#/" title="Volver al inicio">${HOMEI}Cambiar usuario</a></div>
       <div class="cq-tabs"><button class="${CTAB==='hacer'?'on':''}" onclick="CTAB='hacer';renderCuad('${c}')">Para hacer (${hacer.length})</button>
         <button class="${CTAB==='cerr'?'on':''}" onclick="CTAB='cerr';renderCuad('${c}')">Cerradas (${cerr.length})</button></div>
     </div>
