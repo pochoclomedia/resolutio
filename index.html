@@ -93,8 +93,9 @@ small{font-size:12.5px}
   .role .go2{margin:0 0 0 auto}
 }
 /* botón volver al inicio */
-.home-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.14);color:#fff!important;text-decoration:none;padding:7px 12px;border-radius:99px;font-size:13px;font-weight:600;white-space:nowrap;opacity:1!important}
-.home-btn:hover{background:rgba(255,255,255,.24)}
+.home-btn{display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--brand)!important;text-decoration:none;padding:8px 16px;border-radius:99px;font-size:14px;font-weight:700;white-space:nowrap;opacity:1!important;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.home-btn:hover{background:#eaf2fb}
+.cq-head a.cq-wm{font-size:24px;color:#fff;text-decoration:none}
 .brand{text-decoration:none;color:#fff}
 
 /* ---------- ADMIN ---------- */
@@ -361,7 +362,7 @@ const P = {
   cam:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>'
 };
 const ICON = {admin:SV(P.admin),poda:SV(P.poda),calles:SV(P.calles),limpieza:SV(P.limpieza)};
-const HOMEI = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>';
+const HOMEI = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg>';
 const ric = (k,cls='') => `<span class="ric ${cls}">${ICON[k]}</span>`;
 const li = (k,c='currentColor') => SV(P[k],c).replace('<svg','<svg class="li"');
 const H = 3600e3, D = 24*H;
@@ -486,7 +487,7 @@ function renderLogin(){
           <span class="go2">Entrar →</span>
         </button>`}).join('')}
       </div>
-      <div class="tip"><b>Para probar:</b> abrí la Administración en una pestaña y una cuadrilla en otra. Lo que carga uno le aparece al otro en el momento. Para volver a esta pantalla usá <b>“Cambiar usuario”</b>.</div>
+      <div class="tip"><b>Para probar:</b> abrí la Administración en una pestaña y una cuadrilla en otra. Lo que carga uno le aparece al otro en el momento. Desde cualquier pantalla volvés acá con el botón <b>“Inicio”</b>.</div>
       <div class="foot">Maqueta con datos de ejemplo · <button onclick="resetDemo()">Reiniciar datos</button></div>
     </div>
   </div></div>`;
@@ -504,7 +505,7 @@ function renderAdmin(tab){
     <a class="brand" href="#/" title="Volver al inicio"><span class="wm">Resolutio</span><small>Administración</small></a>
     <nav class="tabs">${tabs.map(([k,l])=>`<a href="#/admin/${k}" class="${tab===k?'on':''}">${l}</a>`).join('')}</nav>
     <div class="who">${esc(ADMIN)}</div>
-    <a class="home-btn" href="#/" title="Volver al inicio">${HOMEI}<span>Cambiar usuario</span></a>
+    <a class="home-btn" href="#/" title="Volver al inicio">${HOMEI}<span>Inicio</span></a>
   </header>
   <main class="wrap" id="view"></main>`;
   ({tablero:viewTablero,nueva:viewNueva,stats:viewStats}[tab]||viewTablero)();
@@ -783,7 +784,8 @@ function renderCuad(c){
   const prodSem=TIPOS[c].map(pp=>{const f=fin7.filter(t=>t.tipo===pp.n);return {pp,n:f.length,q:f.reduce((x,t)=>x+(t.cant||0),0)}});
   $('#app').innerHTML=`<div class="cq-app">
     <div class="cq-head"><div class="cq-in">
-      <div class="row1"><div><small>${ric(c,'xs')} Cuadrilla ${C.corto}</small><h1>Hola, ${C.enc}</h1></div><a class="home-btn" href="#/" title="Volver al inicio">${HOMEI}Cambiar usuario</a></div>
+      <div class="row1"><a class="wm cq-wm" href="#/" title="Volver al inicio">Resolutio</a><a class="home-btn" href="#/" title="Volver al inicio">${HOMEI}Inicio</a></div>
+      <div style="margin-top:10px"><small>${ric(c,'xs')} Cuadrilla ${C.corto}</small><h1>Hola, ${C.enc}</h1></div>
       <div class="cq-tabs"><button class="${CTAB==='hacer'?'on':''}" onclick="CTAB='hacer';renderCuad('${c}')">Para hacer (${hacer.length})</button>
         <button class="${CTAB==='cerr'?'on':''}" onclick="CTAB='cerr';renderCuad('${c}')">Cerradas (${cerr.length})</button></div>
     </div></div>
